@@ -1,0 +1,46 @@
+---
+import GameList from '../components/GameList.astro'
+import DiscountRangeSlider from '../components/DiscountRangeSlider.astro'
+import SearchInput from '../components/SearchInput.astro'
+---
+
+<div class="container mx-auto py-4 space-y-8">
+<h1 class="text-3xl">Game discount checker</h1>
+
+
+<div class="grid grid-cols-2 gap-4">
+<SearchInput/>
+
+<DiscountRangeSlider/>
+</div>
+    <GameList/>
+</div>
+
+<script is:inline type="module">
+    let s = 50
+      , c = "";
+    const l = document.getElementById("discount-slider");
+    l.addEventListener("input", e => {
+          s = parseInt(e.target.value),
+            o()
+      }
+    );
+    const u = document.getElementById("simple-search");
+    u.addEventListener("input", e => {
+          c = e.target.value,
+            o()
+      }
+    );
+    const o = () => {
+          document.querySelectorAll(".game-item").forEach(t => {
+                const a = t.querySelector("p")?.textContent || ""
+                  , n = parseInt(t.querySelector(".discount-percentage")?.textContent || "0")
+                  , d = n >= 0
+                  , r = a.toLowerCase().includes(c.toLowerCase())
+                  , i = n >= s;
+                d && r && i ? t.classList.remove("hidden") : t.classList.add("hidden")
+            }
+          )
+      }
+    ;
+</script>
